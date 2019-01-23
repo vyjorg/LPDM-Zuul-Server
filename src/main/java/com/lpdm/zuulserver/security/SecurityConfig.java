@@ -5,6 +5,7 @@ package com.lpdm.zuulserver.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,12 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
       // http.csrf().disable();
       // http.formLogin();
-       http.authorizeRequests().antMatchers( "/microservice-users/**" ,"/ms-product/**").permitAll();
+       http.authorizeRequests().antMatchers("/microservice-users/**" , "/microservice-authentication/**", "/ms-stock/**", "/templates/**","/css/**", "/js/**", "/images/**").permitAll();
       // http.authorizeRequests().antMatchers(HttpMethod.GET,"/tasks/**").permitAll();
       // http.authorizeRequests().antMatchers(HttpMethod.POST, "/tasks/**").hasAuthority("ADMIN");
-       http.authorizeRequests().antMatchers("/templates/**","/css/**", "/js/**", "/images/**").permitAll();
-       http.authorizeRequests().antMatchers("/ms-order/**", "/microservice-authentication/**", "/images/**").authenticated();
-       http.authorizeRequests().anyRequest().authenticated();
+       //http.authorizeRequests().antMatchers().permitAll();
+       //http.authorizeRequests().antMatchers("/ms-order/**",  "/images/**").authenticated();
+       //http.authorizeRequests().anyRequest().authenticated();
       // http.addFilter(new JWTAuthenticationFilter(authenticationManager()));
       // http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

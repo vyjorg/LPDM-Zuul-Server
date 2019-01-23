@@ -1,6 +1,4 @@
-/*
-package com.lpdm.msuser.security;
-
+package com.lpdm.zuulserver.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -51,4 +49,3 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
      }
 }
-*/

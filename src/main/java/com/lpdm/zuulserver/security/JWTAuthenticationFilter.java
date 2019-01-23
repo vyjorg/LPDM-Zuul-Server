@@ -1,9 +1,9 @@
 
-package com.lpdm.msuser.security;
+package com.lpdm.zuulserver.security;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lpdm.msuser.msauthentication.AppUserBean;
+import com.lpdm.zuulserver.beans.AppUserBean;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -59,5 +59,3 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX +jwtToken);
     }
 }
-
- */

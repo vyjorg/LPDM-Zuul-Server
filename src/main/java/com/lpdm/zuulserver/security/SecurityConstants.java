@@ -1,4 +1,4 @@
-package com.lpdm.msuser.security;
+package com.lpdm.zuulserver.security;
 
 public class SecurityConstants {
 

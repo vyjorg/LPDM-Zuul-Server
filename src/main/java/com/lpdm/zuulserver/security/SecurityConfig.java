@@ -37,11 +37,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
       // http.csrf().disable();
       // http.formLogin();
-       http.authorizeRequests().antMatchers( "/microservice-users/**", "/register/**").permitAll();
+       http.authorizeRequests().antMatchers( "/microservice-users/**" ,"/ms-product/**").permitAll();
       // http.authorizeRequests().antMatchers(HttpMethod.GET,"/tasks/**").permitAll();
       // http.authorizeRequests().antMatchers(HttpMethod.POST, "/tasks/**").hasAuthority("ADMIN");
        http.authorizeRequests().antMatchers("/templates/**","/css/**", "/js/**", "/images/**").permitAll();
-       http.authorizeRequests().antMatchers("/ms-order/**","/ms-product/**", "/microservice-authentication/**", "/images/**").authenticated();
+       http.authorizeRequests().antMatchers("/ms-order/**", "/microservice-authentication/**", "/images/**").authenticated();
        http.authorizeRequests().anyRequest().authenticated();
       // http.addFilter(new JWTAuthenticationFilter(authenticationManager()));
       // http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

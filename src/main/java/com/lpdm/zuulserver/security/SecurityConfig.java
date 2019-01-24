@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -34,17 +35,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-      // http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+       http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-      // http.csrf().disable();
-      // http.formLogin();
-       http.authorizeRequests().antMatchers("/microservice-users/**" , "/microservice-authentication/**", "/ms-stock/**", "/templates/**","/css/**", "/js/**", "/images/**").permitAll();
-      // http.authorizeRequests().antMatchers(HttpMethod.GET,"/tasks/**").permitAll();
-      // http.authorizeRequests().antMatchers(HttpMethod.POST, "/tasks/**").hasAuthority("ADMIN");
+       http.csrf().disable();
+       http.formLogin();
+       http.authorizeRequests().antMatchers("/**", "/js/**", "/images/**").permitAll();
        //http.authorizeRequests().antMatchers().permitAll();
        //http.authorizeRequests().antMatchers("/ms-order/**",  "/images/**").authenticated();
-       //http.authorizeRequests().anyRequest().authenticated();
-      // http.addFilter(new JWTAuthenticationFilter(authenticationManager()));
-      // http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+       http.authorizeRequests().anyRequest().authenticated();
+       //http.addFilter(new JWTAuthenticationFilter(authenticationManager()));
+       //http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

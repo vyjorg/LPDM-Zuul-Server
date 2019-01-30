@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lpdm.zuulserver.beans.AppUserBean;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,33 +31,41 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.authenticationManager = authenticationManager;
     }
 
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        logger.info("Entering attemptAuthentication");
+        logger.info("request: " + request.getQueryString());
+        logger.info("response: " + response.getHeaderNames());
+
         AppUserBean appUserBean = null;
         try {
             appUserBean = new ObjectMapper().readValue(request.getInputStream(), AppUserBean.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("*************");
-        System.out.println("username :" + appUserBean.getEmail());
-        System.out.println("password :" + appUserBean.getPassword());
+        logger.info("*************");
+        logger.info("username :" + appUserBean.getEmail());
+        logger.info("password :" + appUserBean.getPassword());
         return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(appUserBean.getEmail(), appUserBean.getPassword()));
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        super.successfulAuthentication(request, response, chain, authResult);
-        System.out.println("Entrée dans successfulAuthentication");
-        User springUser = (User)authResult.getPrincipal();
 
+        logger.info("Entering succesfulAuthentication");
+
+        super.successfulAuthentication(request, response, chain, authResult);
+        User springUser = (User)authResult.getPrincipal();
+        logger.info("spinguser: " + springUser.toString());
         String jwtToken = Jwts.builder()
                 .setSubject(springUser.getUsername())
                 .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS256, SecurityConstants.SECRET)
                 .claim("roles", springUser.getAuthorities())
                 .compact();
-        System.out.println("JWT token: " + jwtToken);
+        logger.info("JWT token: " + jwtToken);
         response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX +jwtToken);
     }
 }

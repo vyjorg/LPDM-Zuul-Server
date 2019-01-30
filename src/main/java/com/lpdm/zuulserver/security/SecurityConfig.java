@@ -39,11 +39,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
        http.csrf().disable();
        http.formLogin();
-       http.authorizeRequests().antMatchers("/**", "/js/**", "/images/**").permitAll();
+       http.authorizeRequests().antMatchers( "/users/**", "/js/**", "/images/**").permitAll();
        //http.authorizeRequests().antMatchers().permitAll();
        //http.authorizeRequests().antMatchers("/ms-order/**",  "/images/**").authenticated();
-       http.authorizeRequests().anyRequest().authenticated();
-       //http.addFilter(new JWTAuthenticationFilter(authenticationManager()));
-       //http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+       // http.authorizeRequests().antMatchers("/microservice-authentication/**").authenticated();
+
+       //http.authorizeRequests().anyRequest().authenticated();
+       http.addFilter(new JWTAuthenticationFilter(authenticationManager()));
+       http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

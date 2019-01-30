@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 @EnableZuulProxy
+// @EnableOAuth2Sso
 @EnableDiscoveryClient
 public class ZuulServerApplication {
 
